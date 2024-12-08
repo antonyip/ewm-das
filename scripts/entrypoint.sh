@@ -6,6 +6,12 @@ if [ -z "$PRIVATE_KEY" ]; then
   exit 1
 fi
 
+# Check if PRIVATE_KEY is set; if not, exit with an error
+if [ -z "$WEBHOOK" ]; then
+  echo "Error: WEBHOOK environment variable is not set."
+  exit 1
+fi
+
 # Check if PRIVATE_KEY is a valid 64-character hexadecimal number
 if ! [[ "$PRIVATE_KEY" =~ ^[0-9a-fA-F]{64}$ ]]; then
   echo "Error: PRIVATE_KEY is not a valid 64-character hexadecimal number."
@@ -26,4 +32,5 @@ light-client \
   --loglevel info \
   --rpc-url wss://coordinator.das.test.covalentnetwork.org/v1/rpc \
   --collect-url https://us-central1-covalent-network-team-sandbox.cloudfunctions.net/ewm-das-collector \
-  --private-key "$PRIVATE_KEY"
+  --private-key "$PRIVATE_KEY" \
+  --webhook "$WEBHOOK"

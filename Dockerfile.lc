@@ -58,7 +58,7 @@ EXPOSE 8080
 RUN ipfs init
 
 # Copy the entrypoint script
-COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set the entrypoint for the container

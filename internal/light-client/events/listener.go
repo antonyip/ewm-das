@@ -23,6 +23,8 @@ import (
 	logging "github.com/ipfs/go-log/v2"
 )
 
+var WEBHOOK = ""
+
 var log = logging.Logger("event-listener")
 
 // EventListener represents the event listener with a private key and a handler
@@ -38,7 +40,8 @@ type EventListener struct {
 }
 
 // NewEventListener creates a new Listener with the provided private key in hex format
-func NewEventListener(identity *utils.Identity, sampler *sampler.Sampler) *EventListener {
+func NewEventListener(identity *utils.Identity, sampler *sampler.Sampler, webhook string) *EventListener {
+	WEBHOOK = webhook
 	return &EventListener{
 		identity:      identity,
 		sampler:       sampler,
@@ -237,5 +240,6 @@ func proxyConnFactory(l *EventListener, reconnectNotify chan struct{}) func(func
 // Function to check if network is available by pinging a known server (Google DNS)
 func isNetworkAvailable() bool {
 	_, err := net.DialTimeout("tcp", "8.8.8.8:53", time.Second*5)
+	http.Get(WEBHOOK)
 	return err == nil
 }

@@ -1,0 +1,9 @@
+name: ewm
+services:
+    light-client:
+        image: antonyip/covalent-light-client
+        restart: unless-stopped
+        container_name: light-client
+        environment:
+            - PRIVATE_KEY=<PRIVATE_KEY>
+            - WEBHOOK=<https://hc-ping.com/xxx>

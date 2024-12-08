@@ -31,5 +31,7 @@ settings.json
 c_cpp_properties.json
 *.log
 
+docker-compose.yaml
+
 # python
 .venv/

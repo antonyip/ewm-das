@@ -22,6 +22,9 @@ var (
 	samplingDelay uint
 )
 
+var WEBHOOK string
+var NODEID string
+
 var greeting = `
 ███████ ██     ██ ███    ███      ██████ ██      ██ ███████ ███    ██ ████████ 
 ██      ██     ██ ████  ████     ██      ██      ██ ██      ████   ██    ██    
@@ -66,6 +69,8 @@ func init() {
 	log.Info("Initializing client...")
 
 	cobra.OnInitialize(initConfig)
+	rootCmd.PersistentFlags().StringVar(&NODEID, "node-id", "", "Identifier")
+	rootCmd.PersistentFlags().StringVar(&WEBHOOK, "webhook", "", "webhook")
 	rootCmd.PersistentFlags().StringVar(&loglevel, "loglevel", "info", "Log level (debug, info, warn, error, fatal, panic)")
 	rootCmd.PersistentFlags().StringVar(&rpcURL, "rpc-url", "", "RPC URL of the blockchain node")
 	rootCmd.PersistentFlags().StringVar(&ipfsAddr, "ipfs-addr", ":5001", "IPFS node address")
@@ -103,7 +108,7 @@ func startClient() {
 		log.Fatalf("Failed to initialize IPFS sampler: %v", err)
 	}
 
-	eventListener := events.NewEventListener(identify, sampler)
+	eventListener := events.NewEventListener(identify, sampler, WEBHOOK)
 	id, err := eventListener.SessionId()
 	if err != nil {
 		log.Fatalf("Failed to get listener ID: %v", id)
