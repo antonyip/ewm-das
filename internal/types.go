@@ -69,22 +69,31 @@ func ensureBase64Padding(encoded string) string {
 	return encoded
 }
 
-type SamplingRequest struct {
-	Cid            string `json:"cid"`
-	ClientIdentity string `json:"client_identity"`
-	ChainId        uint64 `json:"chain_id"`
-	BlockNum       uint64 `json:"block_num"`
+type Workload struct {
+	Hash         string    `json:"hash"`
+	ChainID      int       `json:"chain_id"`
+	BlockHeight  int       `json:"block_height"`
+	BlockHash    string    `json:"block_hash"`
+	SpecimenHash string    `json:"specimen_hash"`
+	Cid          string    `json:"cid"`
+	Challenge    string    `json:"challenge"`
+	BlobIndex    int       `json:"blob_index"`
+	Commitment   string    `json:"commitment"`
+	Expiration   time.Time `json:"expiration"`
+	Signature    string    `json:"signature"`
+}
+
+// Define the top-level struct
+type WorkloadResponse struct {
+	NextUpdate time.Time  `json:"next_update"`
+	Workloads  []Workload `json:"workloads"`
 }
 
 type StoreRequest struct {
-	SamplingReqest    SamplingRequest
-	SamplingSignature string    `json:"sampling_signature"`
-	SignedAt          time.Time `json:"signed_at"`
-	BlobIndex         int       `json:"blob_index"`
-	CellIndex         int       `json:"cell_index"`
-	Status            bool      `json:"status"`
-	Commitment        string    `json:"commitment"`
-	Proof             string    `json:"proof"`
-	Cell              string    `json:"cell"`
-	Version           string    `json:"version"`
+	WorkloadRequest Workload  `json:"workload"`
+	Timestamp       time.Time `json:"timestamp"`
+	CellIndex       int       `json:"cell_index"`
+	Proof           string    `json:"proof"`
+	Cell            string    `json:"cell"`
+	Version         string    `json:"version"`
 }
