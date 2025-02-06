@@ -35,3 +35,6 @@ docker-compose.yaml
 
 # python
 .venv/
+out/
+.envrc
+.envrc.local
